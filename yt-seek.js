@@ -4,7 +4,7 @@
 var YT_Seek = {
     frames: null,
     init: null,
-    processLinks: null,
+    links: null,
     cueVideo: null
 }
 
@@ -13,15 +13,12 @@ function onYouTubeIframeAPIReady() {
     YT_Seek.frames = document.querySelectorAll('iframe[src*="//youtube.com/embed/"], iframe[src*="//www.youtube.com/embed/"]');
     for (i = 0; i < YT_Seek.frames.length; i++) {
         YT_Seek.frames.item(i).yt_player = new YT.Player(YT_Seek.frames.item(i));
-        YT_Seek.frames.item(i).addEventListener("hashchange", YT_Seek.cueVideo, false);
     }
-}
+    YT_Seek.links = document.querySelectorAll('a[href^="#"][yt-seek-start], a[href^="#"][yt-seek-end]');
+    for (i = 0; i < YT_Seek.links.length; i++) {
+        YT_Seek.links.item(i).addEventListener("click", YT_Seek.cueVideo, false);
+    }
 
-YT_Seek.processLinks = function() {
-    var hashLinks = document.querySelectorAll('a[href^="#"][yt-seek-start], a[href^="#"][yt-seek-end]');
-    for (var i = 0; i < hashLinks.length; i++) {
-        hashLinks.item(i).addEventListener("click", YT_Seek.cueVideo, false);
-    }
 }
 
 YT_Seek.cueVideo = function() {
