@@ -28,7 +28,7 @@ Export.readStyleSheet = function(ss) {
 
 Export.getHTML = function() {
     var i;
-    var s = "<!DOCTYPE html>\n<!--  " + document.title + ", originally located at " + window.location.href + '  -->\n<html';
+    var s = "<!DOCTYPE html>\n<!--  '" + document.title + "', originally located at " + window.location.href + '  -->\n<html';
     if (document.documentElement.hasAttributes()) {
         for (i = 0; i < document.documentElement.attributes.length; i++) {
             s += " " + document.documentElement.attributes.item(i).name + '="' + document.documentElement.attributes.item(i).value + '"';
@@ -41,6 +41,9 @@ Export.getHTML = function() {
         }
     }
     s += ">\n";
+    if (!document.head.getElementsByTagName("BASE").length) {
+        s += '        <base href="' + window.location.href + '">\n';
+    }
     for (i = 0; i < document.head.children.length; i++) {
         switch (document.head.children.item(i).tagName) {
             case "LINK":

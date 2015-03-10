@@ -8,6 +8,7 @@ EXPORT.js creates two data URIs, one pointing to a plain-text version of a docum
 
 - all scripts in the `<head>` are removed
 - all linked stylesheets are replaced with equivalent `<style>` elements
+- if no `<base>` element exists, a new one is created pointing to the original URL (`window.location.href`) of the document
 
 Same-origin checking is done for stylesheets included with `@import` but not for `<link>` elements; be sure to use the `crossorigin` attribute if you need to do a CORS request or your code might break.
 
