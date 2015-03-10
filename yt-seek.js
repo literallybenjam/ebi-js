@@ -28,8 +28,8 @@ YT_Seek.cueVideo = function() {
     if (!elt || !elt.yt_player) return;
     if (Number(this.dataset.ytSeekStart)) start = Number(this.dataset.ytSeekStart);
     if (Number(this.dataset.ytSeekEnd)) end = Number(this.dataset.ytSeekEnd);
-    if (start < end) elt.yt_player.cueVideoById({videoId: this.yt_player.getVideoData().video_id, startSeconds: start, endSeconds: end});
-    else elt.yt_player.playVideoById({videoId: this.yt_player.getVideoData().video_id, startSeconds: start});
+    if (start < end) elt.yt_player.cueVideoById({videoId: elt.yt_player.getVideoData().video_id, startSeconds: start, endSeconds: end});
+    else elt.yt_player.cueVideoById({videoId: elt.yt_player.getVideoData().video_id, startSeconds: start});
 }
 
 YT_Seek.init = function() {
@@ -37,4 +37,5 @@ YT_Seek.init = function() {
     tag.type = "text/javascript";
     tag.src = "https://www.youtube.com/iframe_api";
     document.scripts.item(0).parentNode.insertBefore(tag, document.scripts.item(0));
+    window.addEventListener("hashchange", function() {if (document.getElementById(window.location.hash.substr(1)) && document.getElementById(window.location.hash.substr(1)).yt_player) document.getElementById(window.location.hash.substr(1)).yt_player.playVideo();}, false);
 }
