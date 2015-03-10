@@ -212,7 +212,7 @@ Export.exportNode = function(node) {
 
 Export.init = function(elt, plaintext_source) {
     if (!plaintext_source) plaintext_source = document.getElementsByTagName("MAIN").item(0);
-    if (document.documentElement.dataset.noDownload !== undefined || !document.getElementsByTagName("MAIN")) return;
+    if (document.documentElement.dataset.noExport !== undefined) return;
     var plaintext = Export.exportNode(plaintext_source).trim()
     var html = Export.getHTML();
     elt.innerHTML = 'download: <a href="data:text/plain;charset=utf-8,' + encodeURIComponent(plaintext) + '" target="_blank">plain text</a> / <a href="data:text/html;charset=utf-8,' + encodeURIComponent(html) + '" target="_blank">html</a>';

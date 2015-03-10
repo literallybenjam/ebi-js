@@ -18,6 +18,8 @@ By default, the plain-text version will only contain the contents of the `MAIN` 
 
     Export.init(footer, document.body);
 
+You can include the `data-no-export` attribute on the root element of the document to prevent exporting.
+
 ## Endmatter:
 
 EXPORT.js was coded by [@literallybenjam](https://twitter.com/literallybenjam). It is licensed under [the Unlicense](http://unlicense.org/UNLICENSE).
