@@ -51,6 +51,9 @@ Export.getHTML = function() {
 Export.exportNode = function(node) {
     var s = "";
     var i;
+    if (!node) {
+        return s;
+    }
     switch (node.nodeType) {
 
         case Node.TEXT_NODE:
@@ -207,12 +210,10 @@ Export.exportNode = function(node) {
     return s.replace(/ +/g, " ").replace(/ *\n */g, "\n").replace(/\n+/g, "\n");
 }
 
-Export.init = function() {
+Export.init = function(elt, plaintext_source) {
+    if (!plaintext_source) plaintext_source = document.getElementsByTagName("MAIN").item(0);
     if (document.documentElement.dataset.noDownload !== undefined || !document.getElementsByTagName("MAIN")) return;
-    var plaintext = Export.exportNode(document.getElementsByTagName("MAIN").item(0)).trim()
+    var plaintext = Export.exportNode(plaintext_source).trim()
     var html = Export.getHTML();
-    var footer = document.createElement("FOOTER");
-    footer.innerHTML = 'download: <a href="data:text/plain;charset=utf-8,' + encodeURIComponent(plaintext) + '" target="_blank">plain text</a> / <a href="data:text/html;charset=utf-8,' + encodeURIComponent(html) + '" target="_blank">html</a>';
-    document.getElementsByTagName("MAIN").item(0).appendChild(footer);
-    document.styleSheets.item(0).insertRule("@media print{main > footer:last-child {display: none;}}", document.styleSheets.item(0).cssRules.length);
+    elt.innerHTML = 'download: <a href="data:text/plain;charset=utf-8,' + encodeURIComponent(plaintext) + '" target="_blank">plain text</a> / <a href="data:text/html;charset=utf-8,' + encodeURIComponent(html) + '" target="_blank">html</a>';
 }
