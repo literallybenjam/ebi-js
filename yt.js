@@ -12,16 +12,17 @@ function onYouTubeIframeAPIReady() {
     YT_Seek.frames = document.querySelectorAll('iframe[src*="//youtube.com/embed/"], iframe[src*="//www.youtube.com/embed/"]');
     for (i = 0; i < YT_Seek.frames.length; i++) {
         YT_Seek.frames.item(i).yt_player = new YT.Player(YT_Seek.frames.item(i));
-        YT_Seek.frames.item(i).addEventListener("scrolledTo", YT_Seek.processScroll, false);
+        YT_Seek.frames.item(i).addEventListener("hashchange", YT_Seek.processScroll, false);
     }
 }
 
-YT_Seek.processScroll = function(e) {
-    if (!e.detail || !e.detail.source) return;
+YT_Seek.processScroll = function() {
+    var elt = document.getElementById(window.location.hash.substr(1));
     var start = 0;
     var end = 0;
-    if (Number(e.detail.source.dataset.ytStart)) start = Number(e.detail.source.dataset.ytStart);
-    if (Number(e.detail.source.dataset.ytEnd)) end = Number(e.detail.source.dataset.ytEnd);
+    if (!elt) return;
+    if (Number(elt.dataset.ytStart)) start = Number(elt.dataset.ytStart);
+    if (Number(elt.dataset.ytEnd)) end = Number(elt.dataset.ytEnd);
     if (start < end) this.yt_player.loadVideoById({videoId: this.yt_player.getVideoData().video_id, startSeconds: start, endSeconds: end});
     else this.yt_player.loadVideoById({videoId: this.yt_player.getVideoData().video_id, startSeconds: start});
 }
