@@ -28,11 +28,29 @@ Export.readStyleSheet = function(ss) {
 
 Export.getHTML = function() {
     var i;
-    var s = "<!DOCTYPE html>\n<!--  " + document.title + ", originally located at " + window.location.href + '  -->\n<html lang="' + document.documentElement.lang + '">\n    <head>\n';
+    var s = "<!DOCTYPE html>\n<!--  " + document.title + ", originally located at " + window.location.href + '  -->\n<html';
+    if (document.documentElement.hasAttributes()) {
+        for (i = 0; i < document.documentElement.attributes.length; i++) {
+            s += " " + document.documentElement.attributes.item(i).name + '="' + document.documentElement.attributes.item(i).value + '"';
+        }
+    }
+    s += ">\n    <head";
+    if (document.head.hasAttributes()) {
+        for (i = 0; i < document.head.attributes.length; i++) {
+            s += " " + document.head.attributes.item(i).name + '="' + document.head.attributes.item(i).value + '"';
+        }
+    }
+    s += ">\n";
     for (i = 0; i < document.head.children.length; i++) {
         switch (document.head.children.item(i).tagName) {
             case "LINK":
-                if (document.head.children.item(i).type == "text/css") s += "        <style>" + Export.readStyleSheet(document.head.children.item(i).sheet).imports + Export.readStyleSheet(document.head.children.item(i).sheet).styles + "</style>\n";
+                if (document.head.children.item(i).rel == "stylesheet") {
+                    s += "        <style";
+                    if (document.head.children.item(i).type) s += ' type="' + document.head.children.item(i).type + '"';
+                    if (document.head.children.item(i).media) s += ' media="' + document.head.children.item(i).media + '"';
+                    s += ">" + Export.readStyleSheet(document.head.children.item(i).sheet).imports + Export.readStyleSheet(document.head.children.item(i).sheet).styles + "</style>\n";
+                }
+                else s += "        " + document.head.children.item(i).outerHTML + "\n";
                 break;
 
             case "SCRIPT":
@@ -216,4 +234,5 @@ Export.init = function(elt, plaintext_source) {
     var plaintext = Export.exportNode(plaintext_source).trim()
     var html = Export.getHTML();
     elt.innerHTML = 'download: <a href="data:text/plain;charset=utf-8,' + encodeURIComponent(plaintext) + '" target="_blank">plain text</a> / <a href="data:text/html;charset=utf-8,' + encodeURIComponent(html) + '" target="_blank">html</a>';
+    return elt;
 }
