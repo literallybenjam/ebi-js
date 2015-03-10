@@ -26,7 +26,7 @@ By default, the plain-text version will only contain the contents of the `MAIN` 
 
     Export.init(some_element, document.body);
 
-You can include the `data-no-export` attribute on the root element of the document to prevent exporting.
+You can include the `data-no-export` attribute on the root element of the document to prevent exporting. If this attribute is provided, `Export.init` will instead return a comment node.
 
 ## Endmatter:
 
