@@ -236,6 +236,6 @@ Export.init = function(elt, plaintext_source) {
     if (document.documentElement.dataset.noExport !== undefined) return;
     var plaintext = Export.exportNode(plaintext_source).trim()
     var html = Export.getHTML();
-    elt.innerHTML = 'download: <a href="data:text/plain;charset=utf-8,' + encodeURIComponent(plaintext) + '" target="_blank">plain text</a> / <a href="data:text/html;charset=utf-8,' + encodeURIComponent(html) + '" target="_blank">html</a>';
+    elt.innerHTML = 'download: <a href="data:text/plain;charset=utf-8,' + encodeURIComponent(plaintext) + '" download="' + document.title + '.txt" target="_blank">plain text</a> / <a href="data:text/html;charset=utf-8,' + encodeURIComponent(html) + '" download="' + document.title + '.html" target="_blank">html</a>';
     return elt;
 }
