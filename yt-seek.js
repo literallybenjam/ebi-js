@@ -14,7 +14,7 @@ function onYouTubeIframeAPIReady() {
     for (i = 0; i < YT_Seek.frames.length; i++) {
         YT_Seek.frames.item(i).yt_player = new YT.Player(YT_Seek.frames.item(i));
     }
-    YT_Seek.links = document.querySelectorAll('a[href^="#"][yt-seek-start], a[href^="#"][yt-seek-end]');
+    YT_Seek.links = document.querySelectorAll('a[href^="#"][data-yt-seek-start], a[href^="#"][data-yt-seek-end]');
     for (i = 0; i < YT_Seek.links.length; i++) {
         YT_Seek.links.item(i).addEventListener("click", YT_Seek.cueVideo, false);
     }
