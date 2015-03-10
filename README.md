@@ -2,6 +2,15 @@
 
 A javascript script to export the contents of a document to plain text and HTML.
 
+## About:
+
+EXPORT.js creates two data URIs, one pointing to a plain-text version of a document (with some formatting), and the other to an html document, which is identical to the original but for the following changes:
+
+- all scripts in the `<head>` are removed
+- all linked stylesheets are replaced with equivalent `<style>` elements
+
+Same-origin checking is done for stylesheets included with `@import` but not for `<link>` elements; be sure to use the `crossorigin` attribute if you need to do a CORS request or your code might break.
+
 ## Usage:
 
     Export.init(elt, plaintext_source);
