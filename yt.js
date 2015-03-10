@@ -28,8 +28,7 @@ YT_Seek.processScroll = function(e) {
 
 YT_Seek.init = function() {
     var tag = document.createElement('script');
+    tag.type = "text/javascript";
     tag.src = "https://www.youtube.com/iframe_api";
-    document.head.insertBefore(tag, document.head.firstElementChild);
+    document.scripts.item(0).parentNode.insertBefore(tag, document.scripts.item(0));
 }
-
-document.addEventListener("DOMContentLoaded", YT_Seek.init, false);
