@@ -22,9 +22,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 YT_Seek.cueVideo = function() {
-    var elt = document.getElementById(this.href.substr(1));
-    console.log(this);
-    console.log(elt);
+    var elt = document.getElementById(this.hash.substr(1));
     var start = 0;
     var end = 0;
     if (!elt || !elt.yt_player) return;
