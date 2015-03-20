@@ -13,7 +13,9 @@ Randomizer.init = function() {
             var random_index = Math.floor(Math.random() * randomizer_items.length);
             for (var ii = 0; ii < randomizer_items.length; ii++) {
                 if (ii != random_index) randomizer_items.item(ii).setAttribute("hidden","");
+                else if (randomizer_items.item(ii).hasAttribute("hidden")) randomizer_items.item(ii).removeAttribute("hidden");
             }
         }
+        if (Randomizer.randomizers.item(i).hasAttribute("hidden")) Randomizer.randomizers.item(i).removeAttribute("hidden");
     }
 }
