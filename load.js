@@ -23,7 +23,7 @@ Load.getScripts = function() {
     var i;
     var tag;
     if (!Load.scripts.length) {
-        document.dispatchEvent("load-complete");
+        document.dispatchEvent(Load.event);
         return;
     }
     for (i = 0; i < Load.scripts.length; i++) {
@@ -107,11 +107,11 @@ Load.processRequest = function() {
 
 Load.processScript = function() {
     Load.scripts_loaded |= (1 << Number(this.dataset.loadIndex));
-    if (Load.scripts_loaded === ~(~0 << Load.scripts.length)) document.dispatchEvent("load-complete");
+    if (Load.scripts_loaded === ~(~0 << Load.scripts.length)) document.dispatchEvent(Load.event);
 }
 
 Load.init = function() {
-    if (!document.getElementById("load-data")) document.dispatchEvent("load-complete");
+    if (!document.getElementById("load-data")) document.dispatchEvent(Load.event);
     else if (document.getElementById("load-data").tagName.toUpperCase() === "SCRIPT") Load.processLines(document.getElementById("load-data").text);
     else Load.processLines(document.getElementById("load-data").textContent);
 }
