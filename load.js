@@ -43,7 +43,6 @@ Load.processLines = function(text) {
     var i;
     var j;
     var k;
-    var request;
 
     lines = text.split("\n");
     for (i = 0; i < lines.length; i++) {
@@ -95,7 +94,7 @@ Load.processLines = function(text) {
     }
 
     for (i = 0; i < Load.requests.length; i++) {
-        if (Load.requests.readyState == 1) Load.requests.send();
+        if (Load.requests[i].readyState == 1) Load.requests[i].send();
     }
 
 }
