@@ -106,7 +106,7 @@ Load.processRequest = function() {
 }
 
 Load.processScript = function() {
-    Load.scripts_loaded |= (1 << this.dataset.loadIndex);
+    Load.scripts_loaded |= (1 << Number(this.dataset.loadIndex));
     if (Load.scripts_loaded === ~(~0 << Load.scripts.length)) document.dispatchEvent("load-complete");
 }
 
