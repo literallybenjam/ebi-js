@@ -6,24 +6,26 @@ A async loader for JavaScript files!
 
 Here's a sample HTML file using LOAD.js:
 
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>Sample LOAD.js file</title>
-            <script type="text/javascript" src="/load.js"></script>
-            <script type="text/plain" id="load-data">
-                :: Here are some files ::
-                GET : /load/some_list_of_scripts.txt
-                    : /an_extra_script.js
-            </script>
-            <script type="text/javascript">
-                document.addEventListener("load-complete", function() {document.body.innerHTML = "All good!"}, false);
-            </script>
-        </head>
-        <body>
-            <p>Still loading…</p>
-        </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sample LOAD.js file</title>
+        <script type="text/javascript" src="/load.js"></script>
+        <script type="text/plain" id="load-data">
+            :: Here are some files ::
+            GET : /load/some_list_of_scripts.txt
+                : /an_extra_script.js
+        </script>
+        <script type="text/javascript">
+            document.addEventListener("load-complete", function() {document.body.innerHTML = "All good!"}, false);
+        </script>
+    </head>
+    <body>
+        <p>Still loading…</p>
+    </body>
+</html>
+```
 
 The LOAD.js script may be included anywhere on the page. It will run automatically after all DOM content is loaded.
 
@@ -33,11 +35,13 @@ LOAD.js requires an additional element, `#load-data`, an explanation for which f
 
 To load an individual JavaScript file, simply include the location of the file, as you would have it appear in a `src` attribute, on its own line inside the `#load-data` element. **NOTE: Right now, these must be absolute URLs, but support for relative ones is coming!** It may optionally be surrounded by whitespace and be preceded by a single colon. Here are some examples:
 
-    <script type="text/plain" id="load-data">
-        some_crazy_script.js
-        http://example.com/another_one.js
-        : colon_is_ignored.js
-    </script>
+```html
+<script type="text/plain" id="load-data">
+    some_crazy_script.js
+    http://example.com/another_one.js
+    : colon_is_ignored.js
+</script>
+```
 
 ### Loading JavaScript files from an external list:
 
