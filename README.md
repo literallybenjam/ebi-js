@@ -33,7 +33,7 @@ LOAD.js requires an additional element, `#load-data`, an explanation for which f
 
 ### Loading JavaScript files individually:
 
-To load an individual JavaScript file, simply include the location of the file, as you would have it appear in a `src` attribute, on its own line inside the `#load-data` element. **NOTE: Right now, these must be absolute URLs, but support for relative ones is coming!** It may optionally be surrounded by whitespace and be preceded by a single colon. Here are some examples:
+To load an individual JavaScript file, simply include the location of the file, as you would have it appear in a `src` attribute, on its own line inside the `#load-data` element. It may optionally be surrounded by whitespace and be preceded by a single colon. Here are some examples:
 
 ```html
 <script type="text/plain" id="load-data">
