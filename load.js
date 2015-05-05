@@ -22,17 +22,20 @@ else {
 Load.getScripts = function() {
     var i;
     var tag;
+    var last_script;
     if (!Load.scripts.length) {
         document.dispatchEvent(Load.event);
         return;
     }
     for (i = 0; i < Load.scripts.length; i++) {
         tag = document.createElement('script');
+        last_script = document.scripts.item(document.scripts.length -1);
         tag.addEventListener("load", Load.processScript, false);
         tag.type = "text/javascript";
         tag.src = Load.scripts[i];
         tag.dataset.loadIndex = i;
-        document.scripts.item(0).parentNode.insertBefore(tag, document.scripts.item(0));
+        if (last_script.nextSibling) last_script.parentNode.insertBefore(tag, last_script.nextSibling);
+        else last_script.parentNode.appendChild(tag);
     }
 }
 
