@@ -22,10 +22,9 @@ else {
 }
 
 Load.expandURL = function(url, base) {
-    if (url.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:/.test(url)) return url;
-    else if (url[0] === "/" && base.lastIndexOf("/") !== -1) return base.substring(0, base.lastIndexOf("/")) + url;
-    else if (url[0] === "/") return base + url;
-    else return base + "/" + url;
+    if (url.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:/.test(url) || base.indexOf("/") === -1) return url;
+    else if (url[0] === "/") return base.substring(0, base.indexOf("/")) + url;
+    else return base.substring(0, base.lastIndexOf("/")) + "/" + url
 }
 
 Load.Request = function(method, url, base) {
