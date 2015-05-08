@@ -65,7 +65,7 @@ Load.Request.prototype = {
         this.xhr.addEventListener("load", this, false);
     },
     handleEvent: function(event) {
-        Load.processLines(this.xhr.responseText, this.url);
+        Load.processLines(this.xhr.responseText, Load.expandURL(this.url, this.base));
         Load.requests_loaded |= (1 << this.index);
         if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
     },
