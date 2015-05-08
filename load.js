@@ -38,7 +38,8 @@ Load.Request = function(method, url, base) {
     var parent;
     if (url.lastIndexOf("/") == -1) parent = base;
     else {
-        parent = Load.expandURL(url, base).substring(0, url.lastIndexOf("/"));
+        parent = Load.expandURL(url, base);
+        parent = parent.substring(0, parent.lastIndexOf("/"));
     }
 
     this.index = undefined;
