@@ -22,7 +22,7 @@ else {
 
 Load.Request = function(method, url, base) {
 
-    XMLHttpRequest.call(this);
+    this.xhr = new XMLHttpRequest();
 
     var parent;
     if (url.lastIndexOf("/") == -1) parent = "";
@@ -31,8 +31,8 @@ Load.Request = function(method, url, base) {
     if (!base) base = document.baseURI;
     if (base[base.length - 1] === "/") base = base.substr(0, base.length - 1);
 
-    this.load_index = undefined;
-    Object.defineProperties(this, {
+    this.index = undefined;
+    if (Object.defineProperties) Object.defineProperties(this, {
         base: {
             value: base
         },
@@ -45,19 +45,37 @@ Load.Request = function(method, url, base) {
         url: {
             value: url
         }
-    })
-    this.open = function() {
-        Object.defineProperty(this, "index", {value: Load.requests.length});
-        Load.requests[Load.requests.length] = this;
-        this.prototype.open.call(this, method, base + "/" + url, true);
-        this.responseType = "text";
-        this.overrideMimeType("text/plain");
-        this.addEventListener("load", Load.processRequest, false);
+    });
+    else {
+        this.base = base;
+        this.method = method;
+        this.parent = parent;
+        this.url = url;
     }
 }
 
-Load.Request.prototype = Object.create(XMLHttpRequest.prototype);
-Load.Request.prototype.constructor = XMLHttpRequest;
+Load.Request.prototype = {
+    load_event: undefined,
+    open: function() {
+        if (Object.defineProperty) Object.defineProperty(this, "index", {value: Load.requests.length});
+        else this.index = Load.requests.length;
+        Load.requests[Load.requests.length] = this;
+        this.xhr.open();
+        this.xhr.responseType = "text";
+        this.xhr.overrideMimeType("text/plain");
+        this.xhr.addEventListener("load", this.reportLoaded, false);
+        this.addEventListener("load", Load.processRequest, false);
+    },
+    reportLoaded: function() {
+        this.dispatchEvent(Load.Request.prototype.load_event);
+    }
+}
+
+if (typeof(Event) === "function") Load.Request.prototype.load_event = new Event("load");
+else {
+    Load.Request.prototype.load_event = document.createEvent("Event");
+    Load.Request.prototype.load_event.initEvent("load");
+}
 
 Load.getScripts = function() {
     var i;
@@ -103,7 +121,7 @@ Load.processLines = function(text, base) {
                 j += 3;  //  GET
                 while (/\s/.test(lines[i].charAt(j))) j++;
                 j++;  //  colon
-                new Load.Request("GET", lines[i].substr(j).trim(), base).open();
+                (new Load.Request("GET", lines[i].substr(j).trim(), base)).open();
                 break;
 
             case "POST":
@@ -111,7 +129,7 @@ Load.processLines = function(text, base) {
                 j += 4;  //  POST
                 while (/\s/.test(lines[i].charAt(j))) j++;
                 j++;  //  colon
-                new Load.Request("GET", lines[i].substr(j).trim(), base).open();
+                (new Load.Request("GET", lines[i].substr(j).trim(), base)).open();
                 break;
 
             default:
