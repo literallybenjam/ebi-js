@@ -55,8 +55,8 @@ Load.Request = function(method, url, base) {
 }
 
 Load.Request.prototype = {
-    load_event: undefined,
     open: function() {
+        if (Load.requests.length > 32) throw "LOAD.js error : Maximum script cap reached";
         if (Object.defineProperty) Object.defineProperty(this, "index", {value: Load.requests.length});
         else this.index = Load.requests.length;
         Load.requests[Load.requests.length] = this;
@@ -65,18 +65,13 @@ Load.Request.prototype = {
         else this.xhr.open(this.method, this.base + "/" + this.url, true);
         this.xhr.responseType = "text";
         this.xhr.overrideMimeType("text/plain");
-        this.xhr.addEventListener("load", this.reportLoaded, false);
-        this.addEventListener("load", Load.processRequest, false);
+        this.xhr.addEventListener("load", this, false);
     },
-    reportLoaded: function() {
-        this.dispatchEvent(Load.Request.prototype.load_event);
+    handleEvent: function(event) {
+        Load.processLines(this.xhr.responseText, this.parent);
+        Load.requests_loaded |= (1 << this.index);
+        if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
     }
-}
-
-if (typeof(Event) === "function") Load.Request.prototype.load_event = new Event("load");
-else {
-    Load.Request.prototype.load_event = document.createEvent("Event");
-    Load.Request.prototype.load_event.initEvent("load");
 }
 
 Load.getScripts = function() {
@@ -148,12 +143,6 @@ Load.processLines = function(text, base) {
         if (Load.requests[i].readyState == 1) Load.requests[i].send();
     }
 
-}
-
-Load.processRequest = function() {
-    Load.processLines(this.responseText, this.parent);
-    Load.requests_loaded |= (1 << this.index);
-    if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
 }
 
 Load.processScript = function() {
