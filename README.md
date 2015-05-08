@@ -65,6 +65,9 @@ Upon loading every script, LOAD.js dispatches the `load-complete` event to `docu
 
 LOAD.js creates a new global object, `Load`, in which it stores all of its data. Don't use `Load` for your own stuff to avoid breaking anything.
 
+Reading external files with LOAD.js requires `Object.create()` support.
+Be sure to polyfill this before including LOAD.js if you need to support older browsers.
+
 ## Endmatter:
 
 LOAD.js was coded by [@literallybenjam](https://twitter.com/literallybenjam). It is licensed under [the Unlicense](http://unlicense.org/UNLICENSE).

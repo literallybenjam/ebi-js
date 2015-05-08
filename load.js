@@ -7,6 +7,7 @@ var Load = {
     processLines: undefined,
     processRequest: undefined,
     processScript: undefined,
+    Request: undefined,
     requests: [],
     requests_loaded: 0,
     scripts: [],
@@ -18,6 +19,45 @@ else {
     Load.event = document.createEvent("Event");
     Load.event.initEvent("load-complete");
 }
+
+Load.Request = function(method, url, base) {
+
+    XMLHttpRequest.call(this);
+
+    var parent;
+    if (url.lastIndexOf("/") == -1) parent = "";
+    else parent = url.substring(0, url.lastIndexOf("/"));
+
+    if (!base) base = document.baseURI;
+    if (base[base.length - 1] === "/") base = base.substr(0, base.length - 1);
+
+    this.load_index = undefined;
+    Object.defineProperties(this, {
+        base: {
+            value: base
+        },
+        method: {
+            value: method
+        },
+        parent: {
+            value: parent
+        },
+        url: {
+            value: url
+        }
+    })
+    this.open = function() {
+        Object.defineProperty(this, "index", {value: Load.requests.length});
+        Load.requests[Load.requests.length] = this;
+        this.prototype.open.call(this, method, base + "/" + url, true);
+        this.responseType = "text";
+        this.overrideMimeType("text/plain");
+        this.addEventListener("load", Load.processRequest, false);
+    }
+}
+
+Load.Request.prototype = Object.create(XMLHttpRequest.prototype);
+Load.Request.prototype.constructor = XMLHttpRequest;
 
 Load.getScripts = function() {
     var i;
@@ -39,13 +79,13 @@ Load.getScripts = function() {
     }
 }
 
-Load.processLines = function(text) {
+Load.processLines = function(text, base) {
 
     var lines;
     var line_type;
     var i;
     var j;
-    var k;
+    var u;
 
     lines = text.split("\n");
     for (i = 0; i < lines.length; i++) {
@@ -63,13 +103,7 @@ Load.processLines = function(text) {
                 j += 3;  //  GET
                 while (/\s/.test(lines[i].charAt(j))) j++;
                 j++;  //  colon
-                k = Load.requests.length;
-                Load.requests[k] = new XMLHttpRequest();
-                Load.requests[k].open("GET", lines[i].substr(j).trim(), true);
-                Load.requests[k].responseType = "text";
-                Load.requests[k].overrideMimeType("text/plain");
-                Load.requests[k].loadIndex = k;
-                Load.requests[k].addEventListener("load", Load.processRequest, false);
+                new Load.Request("GET", lines[i].substr(j).trim(), base).open();
                 break;
 
             case "POST":
@@ -77,13 +111,7 @@ Load.processLines = function(text) {
                 j += 4;  //  POST
                 while (/\s/.test(lines[i].charAt(j))) j++;
                 j++;  //  colon
-                k = Load.requests.length;
-                Load.requests[k] = new XMLHttpRequest();
-                Load.requests[k].open("POST", lines[i].substr(j).trim(), true);
-                Load.requests[k].responseType = "text";
-                Load.requests[k].overrideMimeType("text/plain");
-                Load.requests[k].loadIndex = k;
-                Load.requests[k].addEventListener("load", Load.processRequest, false);
+                new Load.Request("GET", lines[i].substr(j).trim(), base).open();
                 break;
 
             default:
@@ -103,8 +131,8 @@ Load.processLines = function(text) {
 }
 
 Load.processRequest = function() {
-    Load.processLines(this.responseText);
-    Load.requests_loaded |= (1 << this.loadIndex);
+    Load.processLines(this.responseText, this.parent);
+    Load.requests_loaded |= (1 << this.index);
     if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
 }
 
