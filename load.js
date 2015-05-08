@@ -23,7 +23,8 @@ else {
 
 Load.expandURL = function(url, base) {
     if (url.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:/.test(url) || base.indexOf("/") === -1) return url;
-    else if (url[0] === "/") return base.substring(0, base.indexOf("/")) + url;
+    else if (url[0] === "/" && (base.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:\/\//.test(base))) return base.substring(0, base.indexOf("/", base.indexOf("/\/"))) + url;
+    else if (url[0] === "/") return base.substring(0, base.indexOf("/")) + url
     else return base.substring(0, base.lastIndexOf("/")) + "/" + url
 }
 
