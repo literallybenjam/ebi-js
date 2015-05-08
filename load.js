@@ -54,6 +54,14 @@ Load.Request = function(method, url, base) {
 }
 
 Load.Request.prototype = {
+    getReadyState: function(event) {
+        return this.xhr.readyState;
+    },
+    handleEvent: function(event) {
+        Load.processLines(this.xhr.responseText, Load.expandURL(this.url, this.base));
+        Load.requests_loaded |= (1 << this.index);
+        if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
+    },
     open: function() {
         if (Load.requests.length > 32) throw "LOAD.js error : Maximum script cap reached";
         if (Object.defineProperty) Object.defineProperty(this, "index", {value: Load.requests.length});
@@ -63,11 +71,6 @@ Load.Request.prototype = {
         this.xhr.responseType = "text";
         this.xhr.overrideMimeType("text/plain");
         this.xhr.addEventListener("load", this, false);
-    },
-    handleEvent: function(event) {
-        Load.processLines(this.xhr.responseText, Load.expandURL(this.url, this.base));
-        Load.requests_loaded |= (1 << this.index);
-        if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
     },
     send: function() {
         this.xhr.send();
@@ -140,7 +143,7 @@ Load.processLines = function(text, base) {
     }
 
     for (i = 0; i < Load.requests.length; i++) {
-        if (Load.requests[i].readyState == 1) Load.requests[i].send();
+        if (Load.requests[i].getReadyState() == 1) Load.requests[i].send();
     }
 
 }
