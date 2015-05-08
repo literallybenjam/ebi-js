@@ -80,6 +80,9 @@ Load.Request.prototype = {
         Load.processLines(this.xhr.responseText, this.parent);
         Load.requests_loaded |= (1 << this.index);
         if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
+    },
+    send: function() {
+        this.xhr.send();
     }
 }
 
