@@ -60,7 +60,9 @@ Load.Request.prototype = {
         if (Object.defineProperty) Object.defineProperty(this, "index", {value: Load.requests.length});
         else this.index = Load.requests.length;
         Load.requests[Load.requests.length] = this;
-        this.xhr.open();
+        if (this.url.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:/.test(this.url) !== -1) this.xhr.open(this.method, this.url, true);
+        else if (this.url[0] === "/" && this.base.lastIndexOf("/") !== -1) this.xhr.open(this.method, this.base.substring(0, this.base.lastIndexOf("/") + 1) + this.url, true);
+        else this.xhr.open(this.method, this.base + "/" + this.url, true);
         this.xhr.responseType = "text";
         this.xhr.overrideMimeType("text/plain");
         this.xhr.addEventListener("load", this.reportLoaded, false);
