@@ -132,7 +132,7 @@ Load.processLines = function(text, base) {
             default:
                 while (/\s/.test(lines[i].charAt(j))) j++;
                 if (lines[i].charAt(j) == ":") j++;
-                Load.scripts[Load.scripts.length] = lines[i].substr(j).trim();
+                Load.scripts[Load.scripts.length] = Load.expandURL(lines[i].substr(j).trim(), base);
                 break;
 
         }
