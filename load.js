@@ -34,13 +34,6 @@ Load.Request = function(method, url, base) {
 
     if (!base) base = document.baseURI;
 
-    var parent;
-    if (url.lastIndexOf("/") == -1) parent = base;
-    else {
-        parent = Load.expandURL(url, base);
-        parent = parent.substring(0, parent.lastIndexOf("/"));
-    }
-
     this.index = undefined;
     if (Object.defineProperties) Object.defineProperties(this, {
         base: {
@@ -49,9 +42,6 @@ Load.Request = function(method, url, base) {
         method: {
             value: method
         },
-        parent: {
-            value: parent
-        },
         url: {
             value: url
         }
@@ -59,7 +49,6 @@ Load.Request = function(method, url, base) {
     else {
         this.base = base;
         this.method = method;
-        this.parent = parent;
         this.url = url;
     }
 }
@@ -76,7 +65,7 @@ Load.Request.prototype = {
         this.xhr.addEventListener("load", this, false);
     },
     handleEvent: function(event) {
-        Load.processLines(this.xhr.responseText, this.parent);
+        Load.processLines(this.xhr.responseText, this.url);
         Load.requests_loaded |= (1 << this.index);
         if (Load.requests_loaded === ~(~0 << Load.requests.length)) Load.getScripts();
     },
