@@ -33,7 +33,6 @@ Load.Request = function(method, url, base) {
     this.xhr = new XMLHttpRequest();
 
     if (!base) base = document.baseURI;
-    if (base[base.length - 1] === "/") base = base.substr(0, base.length - 1);
 
     var parent;
     if (url.lastIndexOf("/") == -1) parent = base;
