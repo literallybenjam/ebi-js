@@ -2,6 +2,7 @@
 
 var Load = {
     event: undefined,
+    expandURL: undefined,
     init: undefined,
     getScripts: undefined,
     processLines: undefined,
@@ -20,16 +21,24 @@ else {
     Load.event.initEvent("load-complete");
 }
 
+Load.expandURL = function(url, base) {
+    if (url.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:/.test(url) !== -1) return url;
+    else if (url[0] === "/" && base.lastIndexOf("/") !== -1) return base.lastIndexOf("/") + 1 + url;
+    else return base + "/" + url;
+}
+
 Load.Request = function(method, url, base) {
 
     this.xhr = new XMLHttpRequest();
 
-    var parent;
-    if (url.lastIndexOf("/") == -1) parent = "";
-    else parent = url.substring(0, url.lastIndexOf("/"));
-
     if (!base) base = document.baseURI;
     if (base[base.length - 1] === "/") base = base.substr(0, base.length - 1);
+
+    var parent;
+    if (url.lastIndexOf("/") == -1) parent = base;
+    else {
+        parent = Load.expandURL(url, base).substring(0, url.lastIndexOf("/"));
+    }
 
     this.index = undefined;
     if (Object.defineProperties) Object.defineProperties(this, {
@@ -60,9 +69,7 @@ Load.Request.prototype = {
         if (Object.defineProperty) Object.defineProperty(this, "index", {value: Load.requests.length});
         else this.index = Load.requests.length;
         Load.requests[Load.requests.length] = this;
-        if (this.url.substr(0,2) === "/\/" || /^[a-zA-Z0-9\-+]*:/.test(this.url) !== -1) this.xhr.open(this.method, this.url, true);
-        else if (this.url[0] === "/" && this.base.lastIndexOf("/") !== -1) this.xhr.open(this.method, this.base.substring(0, this.base.lastIndexOf("/") + 1) + this.url, true);
-        else this.xhr.open(this.method, this.base + "/" + this.url, true);
+        this.xhr.open(this.method, Load.expandURL(this.url, this.base), true);
         this.xhr.responseType = "text";
         this.xhr.overrideMimeType("text/plain");
         this.xhr.addEventListener("load", this, false);
