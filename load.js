@@ -32,8 +32,6 @@ Load.Request = function(method, url, base) {
 
     this.xhr = new XMLHttpRequest();
 
-    if (!base) base = document.baseURI;
-
     this.index = undefined;
     if (Object.defineProperties) Object.defineProperties(this, {
         base: {
@@ -104,6 +102,8 @@ Load.processLines = function(text, base) {
     var i;
     var j;
     var u;
+
+    if (!base) base = document.baseURI;
 
     lines = text.split("\n");
     for (i = 0; i < lines.length; i++) {
