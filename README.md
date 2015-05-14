@@ -44,8 +44,8 @@ EXPORT.js uses an extended markdown syntax. In particular, the following additio
 - `<iframe>` elements are represented with `[src]`
 - `<ins>` elements are represented with `::…::`
 - `<li>` elements are always represented using block syntax
-- `<q>` elements are represented with `“…”``
-- `<small>` elements are represented with `((…))``
+- `<q>` elements are represented with `“…”`
+- `<small>` elements are represented with `((…))`
 - `<s>` elements are represented with `~~…~~`
 - `<strong>` elements are represented with `__…__`
 - `<sub>` elements are represented with `\\_[…]`
