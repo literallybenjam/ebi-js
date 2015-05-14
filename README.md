@@ -34,7 +34,7 @@ EXPORT.js uses an extended markdown syntax. In particular, the following additio
 
 - `<aside>` elements are represented with `[[…]]`
 - `<b>` elements are represented with `§…§`
-- `<br>` elements are represented with `\\` followed by a newline
+- `<br>` elements are represented with <code>\\</code> followed by a newline
 – `<del>` elements are represented with `--…--`
 - `<dfn>` elements are represented with `_…_ `
 - `<em>` elements are represented with `*…*`
