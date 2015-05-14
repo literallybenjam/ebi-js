@@ -7,15 +7,17 @@ var YT_Seek = {
 }
 
 YT_Seek.handleEvent = function(e) {
-    if (e.type !== "click") return;
-    if (e.target.nodeName.toUpperCase() !== "A") return;
-    if (e.target.dataset.yt_seekStart !== undefined && e.target.dataset.yt_seekEnd !== undefined) return;
-    var elt = document.getElementById(e.target.hash.substr(1));
+    var a;
+    var n = e.target;
+    do if (n.nodeName.toUpperCase() === "A") a = n;
+    while (!a && n == n.parentNode);
+    if (!a || (a.dataset.yt_seekStart === undefined && a.dataset.yt_seekEnd === undefined)) return;
+    var elt = document.getElementById(a.hash.substr(1));
     var start = 0;
     var end = 0;
     if (!elt || !elt.yt_player) return;
-    if (Number(e.target.dataset.yt_seekStart)) start = Number(e.target.dataset.yt_seekStart);
-    if (Number(e.target.dataset.yt_seekEnd)) end = Number(e.target.dataset.yt_seekEnd);
+    if (Number(a.dataset.yt_seekStart)) start = Number(a.dataset.yt_seekStart);
+    if (Number(a.dataset.yt_seekEnd)) end = Number(a.dataset.yt_seekEnd);
     if (start < end) elt.yt_player.loadVideoById({videoId: elt.yt_player.getVideoData().video_id, startSeconds: start, endSeconds: end});
     else elt.yt_player.loadVideoById({videoId: elt.yt_player.getVideoData().video_id, startSeconds: start});
 }
