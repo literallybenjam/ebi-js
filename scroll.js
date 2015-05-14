@@ -27,8 +27,8 @@ Scroll.handleEvent = function(e) {
             Scroll.velocity = 0;
             Scroll.hash = a.hash;
             Scroll.push_state = true;
-            window.requestAnimationFrame(Scroll.advance);
             e.preventDefault();
+            window.requestAnimationFrame(Scroll.advance);
             break;
 
         case "popstate":
