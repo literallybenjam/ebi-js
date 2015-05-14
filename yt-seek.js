@@ -7,6 +7,7 @@ var YT_Seek = {
 }
 
 YT_Seek.handleEvent = function(e) {
+    if (e.type !== "click") return;
     var a;
     var n = e.target;
     do if (n.nodeName.toUpperCase() === "A") a = n;
