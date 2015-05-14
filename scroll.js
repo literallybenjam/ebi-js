@@ -20,7 +20,7 @@ Scroll.handleEvent = function(e) {
             var n = e.target;
             do if (n.nodeName.toUpperCase() === "A") a = n;
             while (!a && n == n.parentNode);
-            if (!a || !document.getElementById(a.hash.substr(1))) return;
+            if (!a || !a.hash.substr(1) || !document.getElementById(a.hash.substr(1))) return;
             Scroll.source = a;
             Scroll.element = document.getElementById(a.hash.substr(1));
             Scroll.target = Scroll.element.getBoundingClientRect().top + window.scrollY;
@@ -32,7 +32,7 @@ Scroll.handleEvent = function(e) {
             break;
 
         case "popstate":
-            if (!window.location.hash || !document.getElementById(window.location.hash.substr(1))) return;
+            if (!window.location.hash || !window.location.hash.substr(1) || !document.getElementById(window.location.hash.substr(1))) return;
             Scroll.source = null;
             Scroll.element = document.getElementById(window.location.hash.substr(1));
             Scroll.target = Scroll.element.getBoundingClientRect().top + window.scrollY;
