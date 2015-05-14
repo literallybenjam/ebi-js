@@ -28,6 +28,31 @@ By default, the plain-text version will only contain the contents of the `MAIN` 
 
 You can include the `data-no-export` attribute on the root element of the document to prevent exporting. If this attribute is provided, `Export.init` will instead return a comment node.
 
+## Plaintext Syntax:
+
+EXPORT.js uses an extended markdown syntax. In particular, the following additions/changes are made:
+
+- `<aside>` elements are represented with `[[…]]`
+- `<b>` elements are represented with `§…§`
+- `<br>` elements are represented with `\\` followed by a newline
+– `<del>` elements are represented with `--…--`
+- `<dfn>` elements are represented with `_…_ `
+- `<em>` elements are represented with `*…*`
+- `<h1>`–`<h6>` elements take the form `#  …  #`
+- `<hr>` elements are represented with `* * *`
+- `<i>` elements are represented with `'…'`
+- `<iframe>` elements are represented with `[src]`
+- `<ins>` elements are represented with `::…::`
+- `<li>` elements are always represented using block syntax
+- `<q>` elements are represented with `“…”``
+- `<small>` elements are represented with `((…))``
+- `<s>` elements are represented with `~~…~~`
+- `<strong>` elements are represented with `__…__`
+- `<sub>` elements are represented with `\\_[…]`
+- `<sup>` elements are represented with `\\^[…]`
+
+Tables are currently not displayed in EXPORT.js. Other elements may be rendered in harder-to-describe ways; for example, definition lists.
+
 ## Endmatter:
 
 EXPORT.js was coded by [@literallybenjam](https://twitter.com/literallybenjam). It is licensed under [the Unlicense](http://unlicense.org/UNLICENSE).
