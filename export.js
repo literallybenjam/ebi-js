@@ -86,19 +86,18 @@ Export.exportNode = function(node) {
             for (i = 0; i < node.childNodes.length; i++) {
                 s += Export.exportNode(node.childNodes.item(i));
             }
-            s = s.trim();
             switch (node.tagName) {
 
                 case "A":
-                    s = " [" + s + "](" + node.href + ")";
+                    s = " [" + s.trim() + "](" + node.href + ")";
                     break;
 
                 case "ASIDE":
-                    s = "\n\n[[" + s + "]]\n\n";
+                    s = "\n\n[[" + s.trim() + "]]\n\n";
                     break;
 
                 case "B":
-                    s = "§" + s + "§";
+                    s = "§" + s.trim() + "§";
                     break;
 
                 case "BLOCKQUOTE":
@@ -110,27 +109,27 @@ Export.exportNode = function(node) {
                     break;
 
                 case "CODE":
-                    s = "`" + s + "`";
+                    s = "`" + s.trim() + "`";
                     break;
 
                 case "DEL":
-                    s = "--" + s + "--";
+                    s = "--" + s.trim() + "--";
                     break;
 
                 case "DFN":
-                    s = "_" + s + "_";
+                    s = "_" + s.trim() + "_";
                     break;
 
                 case "DT":
-                    s = "\n\n" + s + ": ";
+                    s = "\n\n" + s.trim() + ": ";
                     break;
 
                 case "EM":
-                    s = "*" + s + "*";
+                    s = "*" + s.trim() + "*";
                     break;
 
                 case "FIGCAPTION":
-                    s = "\n\n– " + s + "\n\n";
+                    s = "\n\n– " + s.trim() + "\n\n";
                     break;
 
                 case "FIGURE":
@@ -138,27 +137,27 @@ Export.exportNode = function(node) {
                     break;
 
                 case "H1":
-                    s = "\n\n#  " + s + "  #\n\n";
+                    s = "\n\n#  " + s.trim() + "  #\n\n";
                     break;
 
                 case "H2":
-                    s = "\n\n##  " + s + "  ##\n\n";
+                    s = "\n\n##  " + s.trim() + "  ##\n\n";
                     break;
 
                 case "H3":
-                    s = "\n\n###  " + s + "  ###\n\n";
+                    s = "\n\n###  " + s.trim() + "  ###\n\n";
                     break;
 
                 case "H4":
-                    s = "\n\n####  " + s + "  ####\n\n";
+                    s = "\n\n####  " + s.trim() + "  ####\n\n";
                     break;
 
                 case "H5":
-                    s = "\n\n#####  " + s + "  #####\n\n";
+                    s = "\n\n#####  " + s.trim() + "  #####\n\n";
                     break;
 
                 case "H6":
-                    s = "\n\n######  " + s + "  ######\n\n";
+                    s = "\n\n######  " + s.trim() + "  ######\n\n";
                     break;
 
                 case "HR":
@@ -166,7 +165,7 @@ Export.exportNode = function(node) {
                     break;
 
                 case "I":
-                    s = "'" + s + "'";
+                    s = "'" + s.trim() + "'";
                     break;
 
                 case "IFRAME":
@@ -179,7 +178,7 @@ Export.exportNode = function(node) {
                     break;
 
                 case "INS":
-                    s = "::" + s + "::";
+                    s = "::" + s.trim() + "::";
                     break;
 
                 case "LI":
@@ -187,9 +186,9 @@ Export.exportNode = function(node) {
                         for (i = 0; i < node.parentElement.children.length; i++) {
                             if (node.parentElement.children.item(i) === node) break;
                         }
-                        s = "\n\n" + (i + 1) + ". " + s + "\n\n";
+                        s = "\n\n" + (i + 1) + ". " + s.trim() + "\n\n";
                     }
-                    else s = "\n\n- " + s + "\n\n";
+                    else s = "\n\n- " + s.trim() + "\n\n";
                     break;
 
                 case "P":
@@ -197,27 +196,27 @@ Export.exportNode = function(node) {
                     break;
 
                 case "Q":
-                    s = "“" + s + "”";
+                    s = "“" + s.trim() + "”";
                     break;
 
                 case "SMALL":
-                    s = "((" + s + "))";
+                    s = "((" + s.trim() + "))";
                     break;
 
                 case "S":
-                    s = "~~" + s + "~~";
+                    s = "~~" + s.trim() + "~~";
                     break;
 
                 case "STRONG":
-                    s = "__" + s + "__";
+                    s = "__" + s.trim() + "__";
                     break;
 
                 case "SUB":
-                    s = "\\_[" + s + "]";
+                    s = "\\_[" + s.trim() + "]";
                     break;
 
                 case "SUP":
-                    s = "\\^[" + s + "]";
+                    s = "\\^[" + s.trim() + "]";
                     break;
 
                 default:
