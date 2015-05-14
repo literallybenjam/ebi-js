@@ -29,4 +29,4 @@ YT_Seek.init = function() {
     document.scripts.item(0).parentNode.insertBefore(tag, document.scripts.item(0));
 }
 
-document.addEventListener("click", YT_Seek, true);
+document.documentElement.addEventListener("click", YT_Seek, true);
