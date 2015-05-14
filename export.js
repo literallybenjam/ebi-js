@@ -218,9 +218,6 @@ Export.exportNode = function(node) {
                 case "SUP":
                     s = "\\^[" + s.trim() + "]";
                     break;
-
-                default:
-                    s = "\n\n" + s + "\n\n";
             }
             break;
 
