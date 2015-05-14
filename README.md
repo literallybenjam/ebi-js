@@ -51,7 +51,7 @@ EXPORT.js uses an extended markdown syntax. In particular, the following additio
 - `<sub>` elements are represented with `\\_[…]`
 - `<sup>` elements are represented with `\\^[…]`
 
-Tables are currently not displayed in EXPORT.js. Other elements may be rendered in harder-to-describe ways; for example, definition lists.
+Tables are currently not displayed well in EXPORT.js. Other elements may be rendered in harder-to-describe ways; for example, definition lists.
 
 ## Endmatter:
 
