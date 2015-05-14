@@ -11,7 +11,7 @@ YT_Seek.handleEvent = function(e) {
     var a;
     var n = e.target;
     do if (n.nodeName.toUpperCase() === "A") a = n;
-    while (!a && n == n.parentNode);
+    while (!a && (n = n.parentNode));
     if (!a || (a.dataset.yt_seekStart === undefined && a.dataset.yt_seekEnd === undefined)) return;
     var elt = document.getElementById(a.hash.substr(1));
     var start = 0;
