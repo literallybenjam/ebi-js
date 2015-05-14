@@ -64,5 +64,5 @@ Scroll.advance = function() {
 }
 
 
-document.addEventListener("click", Scroll, true);
+document.documentElement.addEventListener("click", Scroll, true);
 window.addEventListener("popstate", Scroll, true);
