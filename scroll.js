@@ -19,7 +19,7 @@ Scroll.handleEvent = function(e) {
             var a;
             var n = e.target;
             do if (n.nodeName.toUpperCase() === "A") a = n;
-            while (!a && n == n.parentNode);
+            while (!a && (n = n.parentNode));
             if (!a || a.hostname !== document.location.hostname || !a.hash || !a.hash.substr(1) || !document.getElementById(a.hash.substr(1))) return;
             Scroll.source = a;
             Scroll.element = document.getElementById(a.hash.substr(1));
