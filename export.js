@@ -89,7 +89,7 @@ Export.exportNode = function(node) {
             switch (node.tagName) {
 
                 case "A":
-                    s = " [" + s.trim() + "](" + node.href + ")";
+                    s = "[" + s.trim() + "](" + node.href + ")";
                     break;
 
                 case "ASIDE":
