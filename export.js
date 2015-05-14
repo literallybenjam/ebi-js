@@ -84,8 +84,9 @@ Export.exportNode = function(node) {
         case Node.ELEMENT_NODE:
             if (node.classList.contains("export-link") || node.classList.contains("export-hidden")) break;
             for (i = 0; i < node.childNodes.length; i++) {
-                s += Export.exportNode(node.childNodes.item(i)).trim();
+                s += Export.exportNode(node.childNodes.item(i));
             }
+            s = s.trim();
             switch (node.tagName) {
 
                 case "A":
@@ -117,7 +118,7 @@ Export.exportNode = function(node) {
                     break;
 
                 case "DFN":
-                    s = "_" + s.trim() + "_";
+                    s = "_" + s + "_";
                     break;
 
                 case "DT":
@@ -125,7 +126,7 @@ Export.exportNode = function(node) {
                     break;
 
                 case "EM":
-                    s = "*" + s.trim() + "*";
+                    s = "*" + s + "*";
                     break;
 
                 case "FIGCAPTION":
@@ -165,7 +166,7 @@ Export.exportNode = function(node) {
                     break;
 
                 case "I":
-                    s = "'" + s.trim() + "'";
+                    s = "'" + s + "'";
                     break;
 
                 case "IFRAME":
@@ -200,7 +201,7 @@ Export.exportNode = function(node) {
                     break;
 
                 case "SMALL":
-                    s = "((" + s.trim() + "))";
+                    s = "((" + s + "))";
                     break;
 
                 case "S":
@@ -212,11 +213,11 @@ Export.exportNode = function(node) {
                     break;
 
                 case "SUB":
-                    s = "\\_[" + s.trim() + "]";
+                    s = "\\_[" + s + "]";
                     break;
 
                 case "SUP":
-                    s = "\\^[" + s.trim() + "]";
+                    s = "\\^[" + s + "]";
                     break;
             }
             break;
