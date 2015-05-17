@@ -54,7 +54,7 @@ Scroll.advance = function() {
     if (max_scroll === undefined) max_scroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var current_location = window.scrollY + window.innerHeight / 3;
     if (Math.abs(current_location - Scroll.target) > 1 && max_scroll - window.scrollY >= Scroll.velocity && -1 * window.scrollY <= Scroll.velocity) {
-        Scroll.velocity += 2 * (current_location - Scroll.target) / (Scroll.starting_location - Scroll.target) - 1;
+        Scroll.velocity += 4 * (current_location - Scroll.target) / (Scroll.starting_location - Scroll.target) - 2;
         if (Scroll.velocity > 0) window.scrollBy(0, Math.ceil(Scroll.velocity));
         else window.scrollBy(0, Math.floor(Scroll.velocity));
         window.requestAnimationFrame(Scroll.advance);
