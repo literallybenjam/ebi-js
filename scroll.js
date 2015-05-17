@@ -7,6 +7,7 @@ var Scroll = {
     source: null,
     push_state: false,
     advance: undefined,
+    starting_location: 0,
     target: 0,
     velocity: 0,
 };
@@ -23,6 +24,7 @@ Scroll.handleEvent = function(e) {
             if (!a || a.hostname !== document.location.hostname || !a.hash || !a.hash.substr(1) || !document.getElementById(a.hash.substr(1))) return;
             Scroll.source = a;
             Scroll.element = document.getElementById(a.hash.substr(1));
+            Scroll.starting_location = window.scrollY + window.innerHeight / 3;
             Scroll.target = Scroll.element.getBoundingClientRect().top + window.scrollY;
             Scroll.velocity = 0;
             Scroll.hash = a.hash;
@@ -35,6 +37,7 @@ Scroll.handleEvent = function(e) {
             if (!window.location.hash || !window.location.hash.substr(1) || !document.getElementById(window.location.hash.substr(1))) return;
             Scroll.source = null;
             Scroll.element = document.getElementById(window.location.hash.substr(1));
+            Scroll.starting_location = window.scrollY + window.innerHeight / 3;
             Scroll.target = Scroll.element.getBoundingClientRect().top + window.scrollY;
             Scroll.velocity = 0;
             Scroll.hash = window.location.hash;
@@ -51,7 +54,7 @@ Scroll.advance = function() {
     if (max_scroll === undefined) max_scroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var current_location = window.scrollY + window.innerHeight / 3;
     if (Math.abs(current_location - Scroll.target) > 1 && max_scroll - window.scrollY >= Scroll.velocity && -1 * window.scrollY <= Scroll.velocity) {
-        Scroll.velocity = (Scroll.velocity + (Scroll.target - current_location) * 1023 / document.body.scrollHeight) / 2;
+        Scroll.velocity += (current_location - Scroll.target) / (Scroll.starting_location - Scroll.target) - 0.5;
         if (Scroll.velocity > 0) window.scrollBy(0, Math.ceil(Scroll.velocity));
         else window.scrollBy(0, Math.floor(Scroll.velocity));
         window.requestAnimationFrame(Scroll.advance);
