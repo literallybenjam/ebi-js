@@ -63,6 +63,7 @@ Scroll.advance = function() {
             Scroll.velocity -= dv;
             window.scrollBy(0, Math.floor(Scroll.velocity));
         }
+        window.requestAnimationFrame(Scroll.advance);
     }
     else {
         window.scrollBy(0, Scroll.target - Scroll.location);
