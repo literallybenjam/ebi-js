@@ -54,12 +54,15 @@ Scroll.advance = function() {
     if (max_scroll === undefined) max_scroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var current_location = window.scrollY + window.innerHeight / 3;
     if (Math.abs(current_location - Scroll.target) > 1 && max_scroll - window.scrollY >= Scroll.velocity && -1 * window.scrollY <= Scroll.velocity) {
-        var dv = 4 * Math.abs((Scroll.target - current_location) / (Scroll.target - Scroll.starting_location)) - 2;
-        if (Scroll.target > current_location) Scroll.velocity += dv;
-        else Scroll.velocity -= dv;
-        if (Scroll.velocity > 0) window.scrollBy(0, Math.ceil(Scroll.velocity));
-        else window.scrollBy(0, Math.floor(Scroll.velocity));
-        window.requestAnimationFrame(Scroll.advance);
+        var dv = 4 * (Scroll.target - current_location) / (Scroll.target - Scroll.starting_location) - 2;
+        if (Scroll.target > Scroll.starting_location) {
+            Scroll.velocity += dv;
+            window.scrollBy(0, Math.ceil(Scroll.velocity));
+        }
+        else {
+            Scroll.velocity -= dv;
+            window.scrollBy(0, Math.floor(Scroll.velocity));
+        }
     }
     else {
         window.scrollBy(0, Scroll.target - Scroll.location);
